@@ -9,7 +9,8 @@ void pause();
 
 void cadastra_aluno(td_aluno alunos[], unsigned short *indice)
 {
-	printf("\nNome do aluno ................: ");
+	system("clear");
+	printf("Nome do aluno ................: ");
 	getchar();
 	scanf("%[^\n]", &alunos[(int)*indice].nome);
 	printf("RA ...........................: ");
@@ -28,7 +29,7 @@ void cadastra_aluno(td_aluno alunos[], unsigned short *indice)
 	printf("Disciplinas ..................:\n");
 	for (unsigned short i = 0; i < 4; i++)
 	{
-		float media = 0;
+		float media = 0.0f;
 
 		printf("	Disciplina ......: ");
 		getchar();
@@ -44,7 +45,8 @@ void cadastra_aluno(td_aluno alunos[], unsigned short *indice)
 			media += alunos[(int)*indice].disciplinas[i].notas[j];
 		}
 
-		alunos[(int)*indice].disciplinas[i].media = media / 4;
+		media /= 4.0f;
+		alunos[(int)*indice].disciplinas[i].media = media;
 		printf("\n");
 	}
 
@@ -109,12 +111,12 @@ void imprime_aluno(td_aluno aluno)
 	printf("Disciplinas:\n");
 	for (int i = 0; i < 4; i++)
 	{
-		printf("	Código ...: %d\n", aluno.disciplinas[i].codigo_dis);
+		printf("\n	Código ...: %d\n", aluno.disciplinas[i].codigo_dis);
 		printf("	Disciplina: %s\n", aluno.disciplinas[i].disciplina);
 
 		printf("	Notas:\n");
-		for (int j = 1; j <= 4; j++)
-			printf("		Nota %d: %0.2f\n", j, aluno.disciplinas[i].notas[j]);
+		for (int j = 0; j < 4; j++)
+			printf("		Nota %d: %0.2f\n", j + 1, aluno.disciplinas[i].notas[j]);
 
 		printf("    	Média.....: %0.2f\n", aluno.disciplinas[i].media);
 	}
