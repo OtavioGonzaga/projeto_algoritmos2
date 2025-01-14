@@ -23,7 +23,7 @@ typedef struct
 {
 	int ra;
 	char nome[100];
-	td_data matrícula;
+	td_data matricula;
 	td_disciplina disciplinas[4];
 	char email[100];
 } td_aluno;

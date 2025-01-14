@@ -20,8 +20,8 @@ void cadastra_aluno(td_aluno alunos[], unsigned short *indice)
 	{
 		printf("Data de matrícula (dd/mm/aaaa): ");
 		getchar();
-		scanf("%d/%d/%d", &alunos[(int)*indice].matrícula.dia, &alunos[(int)*indice].matrícula.mes, &alunos[(int)*indice].matrícula.ano);
-	} while ((!valida_data(alunos[(int)*indice].matrícula)));
+		scanf("%d/%d/%d", &alunos[(int)*indice].matricula.dia, &alunos[(int)*indice].matricula.mes, &alunos[(int)*indice].matricula.ano);
+	} while ((!valida_data(alunos[(int)*indice].matricula)));
 
 	printf("E-mail .......................: ");
 	scanf("%s", &alunos[(int)*indice].email);
@@ -106,7 +106,7 @@ void imprime_aluno(td_aluno aluno)
 {
 	printf("Nome ......: %s\n", aluno.nome);
 	printf("RA ........: %d\n", aluno.ra);
-	printf("Matrícula .: %02d/%02d/%04d\n", aluno.matrícula.dia, aluno.matrícula.mes, aluno.matrícula.ano);
+	printf("matricula .: %02d/%02d/%04d\n", aluno.matricula.dia, aluno.matricula.mes, aluno.matricula.ano);
 	printf("E-mail ....: %s\n", aluno.email);
 	printf("Disciplinas:\n");
 	for (int i = 0; i < 4; i++)
@@ -242,10 +242,11 @@ void imprime_compromissos(td_compromisso compromissos[], unsigned short n)
 		unsigned int ra;
 		bool tem_compromisso = false;
 
+		system("clear");
+
 		printf("Digite o RA do aluno: ");
 		scanf("%u", &ra);
 
-		system("clear");
 		for (int i = 0; i < n; i++)
 		{
 			if (compromissos[i].aluno.ra == ra)
@@ -256,13 +257,10 @@ void imprime_compromissos(td_compromisso compromissos[], unsigned short n)
 				tem_compromisso = true;
 				imprime_compromisso(compromissos[i]);
 			}
-
-			if (i == n - 1 && !tem_compromisso)
-			{
-				printf("\nAluno sem compromissos!\n");
-				pause();
-			}
 		}
+
+		if (!tem_compromisso)
+			printf("\nAluno sem compromissos!");
 
 		pause();
 	}
