@@ -6,10 +6,11 @@
 bool valida_data(td_data data);
 bool valida_horario(td_hora horario);
 void pause();
+void clear();
 
 void cadastra_aluno(td_aluno alunos[], unsigned short *indice)
 {
-	system("clear");
+	clear();
 	printf("Nome do aluno ................: ");
 	getchar();
 	scanf("%[^\n]", &alunos[(int)*indice].nome);
@@ -27,7 +28,7 @@ void cadastra_aluno(td_aluno alunos[], unsigned short *indice)
 	scanf("%s", &alunos[(int)*indice].email);
 
 	printf("Disciplinas ..................:\n");
-	for (unsigned short i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		float media = 0.0f;
 
@@ -59,12 +60,12 @@ void cadastra_compromisso(td_compromisso compromissos[], td_aluno aluno[], unsig
 {
 	unsigned int ra;
 
-	system("clear");
+	clear();
 
 	printf("Digite o RA do aluno: ");
 	scanf("%u", &ra);
 
-	for (int i = 0; i < indice_alunos; i++)
+	for (unsigned short i = 0; i < indice_alunos; i++)
 	{
 		if (aluno[i].ra == ra)
 		{
@@ -132,7 +133,7 @@ int compara_alunos(const void *a, const void *b)
 
 void imprime_alunos(td_aluno alunos[], unsigned short n)
 {
-	system("clear");
+	clear();
 
 	qsort(alunos, n, sizeof(td_aluno), compara_alunos);
 
@@ -147,7 +148,7 @@ void imprime_alunos(td_aluno alunos[], unsigned short n)
 
 void imprime_menu(unsigned short *opcao)
 {
-	system("clear");
+	clear();
 
 	printf("1 - Cadastrar aluno\n");
 	printf("2 - Cadastrar compromisso\n");
@@ -237,12 +238,12 @@ void imprime_compromissos(td_compromisso compromissos[], unsigned short n)
 	{
 	case 'a':
 	{
-		system("clear");
+		clear();
 
 		unsigned int ra;
 		bool tem_compromisso = false;
 
-		system("clear");
+		clear();
 
 		printf("Digite o RA do aluno: ");
 		scanf("%u", &ra);
@@ -278,7 +279,7 @@ void imprime_compromissos(td_compromisso compromissos[], unsigned short n)
 		break;
 	case 'c':
 	{
-		system("clear");
+		clear();
 
 		td_data data;
 		bool tem_compromisso = false;
@@ -289,7 +290,7 @@ void imprime_compromissos(td_compromisso compromissos[], unsigned short n)
 			scanf("%02d/%02d/%04d", &data.dia, &data.mes, &data.ano);
 		} while (!(valida_data(data)));
 
-		system("clear");
+		clear();
 		for (int i = 0; i < n; i++)
 		{
 			if (compromissos[i].data.ano == data.ano && compromissos[i].data.mes == data.mes && compromissos[i].data.dia == data.dia)
@@ -359,4 +360,13 @@ void pause()
 {
 	getchar();
 	getchar();
+}
+
+void clear()
+{
+#ifdef _WIN32
+	system("cls");
+#else
+	system("clear");
+#endif
 }

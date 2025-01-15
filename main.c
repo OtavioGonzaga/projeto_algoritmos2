@@ -38,7 +38,7 @@ int main()
 			break;
 		case 4:
 		{
-			system("clear");
+			clear();
 
 			unsigned int ra;
 
