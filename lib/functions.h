@@ -162,6 +162,7 @@ void imprime_menu(unsigned short *opcao)
 
 void imprime_menu_compromissos(char *opcao)
 {
+	printf("Imprimir compromissos:\n");
 	printf("    a - de um aluno\n");
 	printf("    b - de todos os alunos\n");
 	printf("    c - de uma data\n");
@@ -173,7 +174,7 @@ void imprime_menu_compromissos(char *opcao)
 
 void imprime_compromisso(td_compromisso compromisso)
 {
-	printf("\nNome do aluno ..........: %s\n", compromisso.aluno.nome);
+	printf("Nome do aluno ..........: %s\n", compromisso.aluno.nome);
 	printf("Descrição do compromisso: %s\n", compromisso.descricao);
 	printf("Data do compromisso ....: %02d/%02d/%04d\n", compromisso.data.dia, compromisso.data.mes, compromisso.data.ano);
 	printf("Hora do compromisso ....: %02d:%02d\n", compromisso.horario.hora, compromisso.horario.min);
@@ -224,103 +225,119 @@ int compara_compromissos_datas(const void *a, const void *b)
 
 void imprime_compromissos(td_compromisso compromissos[], unsigned short n)
 {
-	char opcao;
-
-	imprime_menu_compromissos(&opcao);
-
-	if (opcao == 'a' || opcao == 'b')
-		qsort(compromissos, n, sizeof(td_compromisso), compara_compromissos_alunos);
-
-	if (opcao == 'c' || opcao == 'd')
-		qsort(compromissos, n, sizeof(td_compromisso), compara_compromissos_datas);
-
-	switch (opcao)
-	{
-	case 'a':
+	while (true)
 	{
 		clear();
+		char opcao;
 
-		unsigned int ra;
-		bool tem_compromisso = false;
+		imprime_menu_compromissos(&opcao);
 
-		clear();
+		if (opcao == 'a' || opcao == 'b')
+			qsort(compromissos, n, sizeof(td_compromisso), compara_compromissos_alunos);
 
-		printf("Digite o RA do aluno: ");
-		scanf("%u", &ra);
+		if (opcao == 'c' || opcao == 'd')
+			qsort(compromissos, n, sizeof(td_compromisso), compara_compromissos_datas);
 
-		for (int i = 0; i < n; i++)
+		switch (opcao)
 		{
-			if (compromissos[i].aluno.ra == ra)
+		case 'a':
+		{
+			clear();
+
+			unsigned int ra;
+			bool tem_compromisso = false;
+
+			clear();
+
+			printf("Digite o RA do aluno: ");
+			scanf("%u", &ra);
+
+			for (int i = 0; i < n; i++)
+			{
+				if (compromissos[i].aluno.ra == ra)
+				{
+					if (i != 0)
+						printf("---------------------------------------------------------------");
+
+					tem_compromisso = true;
+					imprime_compromisso(compromissos[i]);
+				}
+			}
+
+			if (!tem_compromisso)
+				printf("\nAluno sem compromissos!");
+
+			pause();
+		}
+		break;
+		case 'b':
+			clear();
+
+			for (int i = 0; i < n; i++)
 			{
 				if (i != 0)
 					printf("---------------------------------------------------------------");
 
-				tem_compromisso = true;
 				imprime_compromisso(compromissos[i]);
 			}
-		}
 
-		if (!tem_compromisso)
-			printf("\nAluno sem compromissos!");
-
-		pause();
-	}
-	break;
-	case 'b':
-		for (int i = 0; i < n; i++)
+			pause();
+			break;
+		case 'c':
 		{
-			if (i != 0)
-				printf("---------------------------------------------------------------");
+			clear();
 
-			imprime_compromisso(compromissos[i]);
+			td_data data;
+			bool tem_compromisso = false;
+
+			printf("Digite a data: ");
+			do
+			{
+				scanf("%02d/%02d/%04d", &data.dia, &data.mes, &data.ano);
+			} while (!(valida_data(data)));
+
+			clear();
+			for (int i = 0; i < n; i++)
+			{
+				if (compromissos[i].data.ano == data.ano && compromissos[i].data.mes == data.mes && compromissos[i].data.dia == data.dia)
+				{
+					if (i != 0 && tem_compromisso)
+						printf("---------------------------------------------------------------");
+
+					tem_compromisso = true;
+					imprime_compromisso(compromissos[i]);
+				}
+
+				if (i == n - 1 && !tem_compromisso)
+				{
+					printf("\nData sem compromissos!");
+					pause();
+				}
+			}
+
+			pause();
 		}
-
-		pause();
 		break;
-	case 'c':
-	{
-		clear();
+		case 'd':
+			clear();
 
-		td_data data;
-		bool tem_compromisso = false;
-
-		printf("Digite a data: ");
-		do
-		{
-			scanf("%02d/%02d/%04d", &data.dia, &data.mes, &data.ano);
-		} while (!(valida_data(data)));
-
-		clear();
-		for (int i = 0; i < n; i++)
-		{
-			if (compromissos[i].data.ano == data.ano && compromissos[i].data.mes == data.mes && compromissos[i].data.dia == data.dia)
+			for (int i = 0; i < n; i++)
 			{
 				if (i != 0)
 					printf("---------------------------------------------------------------");
 
-				tem_compromisso = true;
 				imprime_compromisso(compromissos[i]);
 			}
 
-			if (i == n - 1 && !tem_compromisso)
-			{
-				printf("\nData sem compromissos!\n");
-				pause();
-			}
+			pause();
+			break;
+		case 'e':
+			return;
+		default:
+			printf("\nOpção inválida!!!");
+			pause();
+			break;
 		}
-
-		pause();
-	}
-	break;
-	// case 'd':
-	// 	imprime_compromissos_datas(compromissos, n);
-	// break;
-	case 'e':
-		return;
-	default:
-		printf("\nOpção inválida!!!\n\n");
-		pause();
-		break;
 	}
 }
 

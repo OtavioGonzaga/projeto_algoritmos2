@@ -54,9 +54,9 @@ int main()
 					break;
 				}
 
-				if (i == tamanho_vetor_alunos - 1)
+				if (i == indice_vetor_alunos - 1)
 				{
-					printf("\nAluno não encontrado.\n");
+					printf("\nAluno não encontrado.");
 					pause();
 					break;
 				}
